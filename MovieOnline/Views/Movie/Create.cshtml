@@ -1,0 +1,69 @@
+﻿@model MovieOnline.ViewModels.MovieViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h3 class="bg-info text-md-left text-white">Add Movie</h3>
+
+<br /><br />
+<div class="row">
+    <div class="col">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text text-danger"></div>
+            <div class="row form-group">
+                <div class="col-md-3">
+                    <label asp-for="Title" class="control-label"></label>
+                </div>
+                <div class="col-md-5">
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-3">
+                    <label asp-for="ReleaseDate" class="control-label"></label>
+                </div>
+                <div class="col-md-5">
+                    <input asp-for="ReleaseDate" class="form-control" />
+                    <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-3">
+                    <label asp-for="MovieImageHiLight" class="control-label"></label>
+                </div>
+                <div class="col-md-5">
+                    <input asp-for="MovieImageHiLight" accept="image/*" />
+                    <span asp-validation-for="MovieImageHiLight" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-3">
+                    <label asp-for="MovieImageView" class="control-label"></label>
+                </div>
+                <div class="col-md-5">
+                    <input asp-for="MovieImageView" accept="image/*" />
+                    <span asp-validation-for="MovieImageView" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-3">
+                    <label asp-for="MovieImageBanner" class="control-label"></label>
+                </div>
+                <div class="col-md-5">
+                    <input asp-for="MovieImageBanner" accept="image/*" />
+                    <span asp-validation-for="MovieImageBanner" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="offset-md-2 form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+                <div class="offset-md-2 form-group">
+                    <a asp-action="Index" class="btn btn-primary">Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

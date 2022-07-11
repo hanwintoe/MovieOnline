@@ -1,0 +1,63 @@
+﻿@model MovieOnline.ViewModels.MovieViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1 class="bg-info text-sm-left text-white">Edit Movie Data</h1>
+
+
+<br /><br />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReleaseDate" class="control-label"></label>
+                <input asp-for="ReleaseDate" class="form-control" />
+                <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <img src="@("~/uploads/"+ Model.ExistingImageHiLight)" asp-append-version="true" width="100" height="100" />
+            </div>
+            <div class="form-group">
+                <label asp-for="MovieImageHiLight" class="control-label"></label>
+                <input asp-for="MovieImageHiLight" accept="image/*" />
+                <span asp-validation-for="MovieImageHiLight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <img src="@("~/uploads/"+ Model.ExistingImageView)" asp-append-version="true" width="100" height="100" />
+            </div>
+            <div class="form-group">
+                <label asp-for="MovieImageView" class="control-label"></label>
+                <input asp-for="MovieImageView" accept="image/*" />
+                <span asp-validation-for="MovieImageView" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <img src="@("~/uploads/"+ Model.ExistingImageBanner)" asp-append-version="true" width="100" height="100" />
+            </div>
+            <div class="form-group">
+                <label asp-for="MovieImageBanner" class="control-label"></label>
+                <input asp-for="MovieImageBanner" accept="image/*" />
+                <span asp-validation-for="MovieImageBanner" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" /> |
+                <a asp-action="Index">Back to List</a>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

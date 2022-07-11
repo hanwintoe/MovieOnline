@@ -1,0 +1,110 @@
+﻿@model IEnumerable<MovieOnline.Models.MovieModels.Movie>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h3 class="bg-info text-md-left text-white">Movie List</h3>
+<a asp-action="Create" class="btn btn-primary">Add Movie</a>
+<br />
+<br />
+<div class="row">
+    <div class="col">
+        <table class="table table-hover table-bordered" id="moviesTable">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Title)</th>
+                    <th>@Html.DisplayNameFor(model => model.MovieGenres)</th>
+                    <th>@Html.DisplayNameFor(model => model.ReleaseDate)</th>
+                    <th>@Html.DisplayNameFor(model => model.ImageHiLight)</th>
+                    <th>@Html.DisplayNameFor(model => model.ImageView)</th>
+                    <th>@Html.DisplayNameFor(model => model.ImageBanner)</th>
+                    <th>Rating</th>
+                    <td>Action</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var movie in Model)
+                {
+                    <tr>
+                        <td>@movie.Title</td>
+                        <td i-movie="@movie.Id">@movie.Id</td>
+                        <td>@movie.ReleaseDate.ToString("dd/MM/yyy")</td>
+                        <td>
+                            <img src="@("~/uploads/"+movie.ImageHiLight)" asp-append-version="true" width="100" height="75" />
+                        </td>
+                        <td>
+                            <img src="@("~/uploads/"+movie.ImageView)" asp-append-version="true" width="100" height="75" />
+                        </td>
+                        <td>
+                            <img src="@("~/uploads/"+movie.ImageBanner)" asp-append-version="true" width="100" height="75" />
+                        </td>
+                        <td>
+                            <img src="~/images/EmptyStar.png" alt="Star Rating" align="middle" id="1" class="rating" mid="@movie.Id" width="20" height="18" />
+                            <img src="~/images/EmptyStar.png" alt="Star Rating" align="middle" id="2" class="rating" mid="@movie.Id" width="20" height="18" />
+                            <img src="~/images/EmptyStar.png" alt="Star Rating" align="middle" id="3" class="rating" mid="@movie.Id" width="20" height="18" />
+                            <img src="~/images/EmptyStar.png" alt="Star Rating" align="middle" id="4" class="rating" mid="@movie.Id" width="20" height="18" />
+                            <img src="~/images/EmptyStar.png" alt="Star Rating" align="middle" id="5" class="rating" mid="@movie.Id" width="20" height="18" />
+                            (Voters: @movie.RateCount) @{if (movie.RateCount > 0)
+                                {
+                                    decimal a = @movie.RateTotal / @movie.RateCount; <h9>Rating: </h9> <span class="avr">@a</span> } }<br />
+                            <div class="result"></div>
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@movie.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@movie.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@movie.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#moviesTable > tbody  > tr').each(function () {
+            var av = $(this).find("span.avr").text();
+            if (av != "" || av != null) {
+                var img = $(this).find("img[id='" + parseInt(av) + "']");
+                img.attr("src", "/images/FilledStar.png").prevAll("img.rating").attr("src", "/images/FilledStar.png");
+            }
+        });
+
+        $("img.rating").mouseover(function () {
+            giveRating($(this), "FilledStar.png");
+            $(this).css("cursor", "pointer");
+        });
+
+        $("img.rating").mouseout(function () {
+            giveRating($(this), "EmptyStar.png");
+            refilRating($(this));
+        });
+
+        $("img.rating").click(function (e) {
+            // $("img.rating").unbind("mouseout mouseover click");
+            $(this).css('color', 'green');
+            // alert(e.currentTarget + ' was clicked!');
+            // call ajax methods to update database
+            var url = "/Movie/PostRating?rating=" + parseInt($(this).attr("id")) + "&mid=" + parseInt($(this).attr("mid"));
+            $.post(url, null, function (data) {
+                $(e.currentTarget).closest('tr').find('div.result').text(data).css('color', 'green') // $("#result").text(data);
+            });
+        });
+    });
+
+    function giveRating(img, image) {
+        img.attr("src", "/images/" + image)
+            .prevAll("img.rating").attr("src", "/images/" + image);
+    }
+    function refilRating(img1) {
+        var rt = $(img1).closest('tr').find("span.avr").text();
+        var img = $(img1).closest('tr').find("img[id='" + parseInt(rt) + "']");
+        img.attr("src", "/images/FilledStar.png").prevAll("img.rating").attr("src", "/images/FilledStar.png");
+    }
+
+
+</script>
